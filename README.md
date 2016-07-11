@@ -7,6 +7,33 @@ The file [rdl.rdl](https://github.com/ardielle/ardielle-common/blob/master/rdl.r
 
     rdl -sp generate -te --ns com.yahoo.rdl java-model $ARDIELLE_COMMON/rdl.rdl
 
+## Maven
+
+``` xml
+<project>
+  <dependencies>
+    <dependency>
+      <groupId>com.yahoo.rdl</groupId>
+      <artifactId>rdl-java</artifactId>
+      <version>1.4.8</version>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>bintray-yahoo-maven</id>
+      <name>bintray-plugins</name>
+      <url>http://yahoo.bintray.com/maven</url>
+    </repository>
+  </repositories>
+</project>
+```
+
+``` sh
+mvn versions:use-latest-releases "-Dincludes=com.yahoo.rdl"
+```
 
 ## License
 
