@@ -221,6 +221,10 @@ public class SchemaBuilder {
             rez.comment = comment;
             return this;
         }
+        public ResourceBuilder name(String name) {
+            rez.name = name;
+            return this;
+        }
         private ResourceInput addInput(String iname, String itype, String comment) {
             ResourceInput in = new ResourceInput()
                 .name(iname)
