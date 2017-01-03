@@ -15,7 +15,7 @@ The file [rdl.rdl](https://github.com/ardielle/ardielle-common/blob/master/rdl.r
     <dependency>
       <groupId>com.yahoo.rdl</groupId>
       <artifactId>rdl-java</artifactId>
-      <version>1.4.8</version>
+      <version>1.4.9</version>
     </dependency>
   </dependencies>
   <repositories>
@@ -37,7 +37,7 @@ mvn versions:use-latest-releases "-Dincludes=com.yahoo.rdl"
 
 ## License
 
-Copyright 2015 Yahoo Inc.
+Copyright 2015-2017 Yahoo Inc.
 
 Licensed under the terms of the Apache version 2.0 license. See LICENSE file for terms.
 
