@@ -5,7 +5,7 @@
   <groupId>com.yahoo.rdl</groupId>
   <artifactId>rdl-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.4.11</version>
+  <version>1.4.12</version>
   <name>rdl-java</name>
   <description>Core runtime support for RDL in Java</description>
   <url>https://github.com/ardielle</url>
