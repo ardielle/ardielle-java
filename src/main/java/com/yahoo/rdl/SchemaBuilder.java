@@ -36,6 +36,11 @@ public class SchemaBuilder {
         return this;
     }
 
+    public SchemaBuilder base(String base) {
+        schema.base = base;
+        return this;
+    }
+
     public StringTypeBuilder stringType(String tname) {
         return new StringTypeBuilder(tname);
     }
