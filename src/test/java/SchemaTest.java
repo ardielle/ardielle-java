@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -274,4 +275,77 @@ public class SchemaTest {
         Assert.assertEquals(result.get("valid"),true , "testing utf8 enum , result is :" + result );
     }
     */
+    
+    Schema multiArraySchema() {
+        SchemaBuilder sb = new SchemaBuilder("arraytest");
+        sb.version(1);
+
+        sb.stringType("SimpleName")
+            .pattern("[a-zA-Z0-9_][a-zA-Z0-9_-]*");
+
+        sb.structType("TemplateParam")
+            .field("key", "SimpleName", false, "name of the parameter")
+            .field("value", "SimpleName", false, "value of the parameter");
+        
+        sb.structType("Template")
+            .arrayField("names", "SimpleName", false, "list of template names")
+            .arrayField("params", "TemplateParam", false, "list of template parameters");
+
+        return sb.build();
+    }
+    
+    @Test
+    public void MultipleArrayTestValid() {
+        Schema schema = multiArraySchema();
+        Validator v = new Validator(schema);
+
+        Template template = new Template();
+        List<String> names = new ArrayList<>();
+        names.add("name1");
+        names.add("name2");
+        template.names = names;
+        List<TemplateParam> params = new ArrayList<>();
+        params.add(new TemplateParam("key", "value"));
+        template.params = params;
+        
+        Validator.Result result = v.validate(template, "Template");
+        Assert.assertTrue(result.valid);
+    }
+    
+    @Test
+    public void MultipleArrayTestInValidKey() {
+        Schema schema = multiArraySchema();
+        Validator v = new Validator(schema);
+        
+        Template template = new Template();
+        List<String> names = new ArrayList<>();
+        names.add("name1");
+        names.add("name2");
+        template.names = names;
+        List<TemplateParam> params = new ArrayList<>();
+        params.add(new TemplateParam("invalid key", "value"));
+        template.params = params;
+        
+        Validator.Result result = v.validate(template, "Template");
+        Assert.assertFalse(result.valid);
+    }
+    
+    @Test
+    public void MultipleArrayTestInValid2() {
+        Schema schema = multiArraySchema();
+        Validator v = new Validator(schema);
+
+        Template template = new Template();
+        List<String> names = new ArrayList<>();
+        names.add("name1");
+        names.add("name2");
+        template.names = names;
+        List<TemplateParam> params = new ArrayList<>();
+        params.add(new TemplateParam("key", "value"));
+        params.add(new TemplateParam("key", "invalid value"));
+        template.params = params;
+        
+        Validator.Result result = v.validate(template, "Template");
+        Assert.assertFalse(result.valid);
+    }
 }

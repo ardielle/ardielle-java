@@ -311,10 +311,16 @@ public class Validator {
                     } else {
                         if (f.keys != null) {
                             MapTypeDef td = new MapTypeDef().type("Map").keys(f.keys).items(f.items);
-                            return validateMapType(fdata, td, context);
+                            Result tmp = validateMapType(fdata, td, context);
+                            if (!tmp.valid) {
+                                return tmp;
+                            }
                         } else if (f.items != null) {
                             ArrayTypeDef td = new ArrayTypeDef().type("Array").items(f.items);
-                            return validateArrayType(fdata, td, context);
+                            Result tmp = validateArrayType(fdata, td, context);
+                            if (!tmp.valid) {
+                                return tmp;
+                            }
                         }
                         Result tmp = validate(fdata, f.type, f.type, context + "." + fname);
                         if (!tmp.valid) {
