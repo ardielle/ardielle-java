@@ -15,7 +15,7 @@ The file [rdl.rdl](https://github.com/ardielle/ardielle-common/blob/master/rdl.r
     <dependency>
       <groupId>com.yahoo.rdl</groupId>
       <artifactId>rdl-java</artifactId>
-      <version>1.4.14</version>
+      <version>1.5.1</version>
     </dependency>
   </dependencies>
   <repositories>
