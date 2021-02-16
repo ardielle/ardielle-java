@@ -5,7 +5,7 @@
   <groupId>com.yahoo.rdl</groupId>
   <artifactId>rdl-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.5.3</version>
+  <version>1.5.4</version>
   <name>rdl-java</name>
   <description>Core runtime support for RDL in Java</description>
   <url>https://github.com/ardielle</url>
@@ -15,8 +15,47 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <min_jdk_version>1.8</min_jdk_version>
     <maven.deploy.skip>false</maven.deploy.skip>
-    <jackson.version>2.11.0</jackson.version>
+    <jackson.version>2.12.1</jackson.version>
   </properties>
+
+  <organization>
+    <name>Verizon Media</name>
+    <url>https://www.verizonmedia.com/</url>
+  </organization>
+  <inceptionYear>2016</inceptionYear>
+
+  <developers>
+    <developer>
+      <name>RDL Maintainers</name>
+      <organization>Verizon Media</organization>
+      <organizationUrl>https://www.verizonmedia.com/</organizationUrl>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/ardielle/ardielle-java</url>
+    <connection>scm:git:https://github.com/ardielle/ardielle-java.git</connection>
+    <developerConnection>scm:git:https://github.com/ardielle/ardielle-java.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/ardielle/ardielle-java/issues</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Screwdriver.cd</system>
+    <url>https://cd.screwdriver.cd/pipelines/6711</url>
+  </ciManagement>
 
   <dependencies>
     <dependency>
@@ -58,14 +97,90 @@
         <artifactId>maven-deploy-plugin</artifactId>
         <version>2.8.2</version>
       </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <id>ossrh</id>
+      <properties>
+        <gpg.executable>gpg</gpg.executable>
+        <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+        <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+        <gpg.defaultKeyring>false</gpg.defaultKeyring>
+      </properties>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
     <repository>
-      <id>bintray-yahoo-maven</id>
-      <name>yahoo-maven</name>
-      <url>https://api.bintray.com/maven/yahoo/maven/rdl-java/;publish=1</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
 </project>

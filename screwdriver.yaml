@@ -1,0 +1,20 @@
+# Copyright Verizon Media. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+---
+
+shared:
+  image: openjdk:8
+  environment:
+    USER_SHELL_BIN: /bin/bash
+  
+jobs:
+  pull-request:
+    requires: [~pr]
+    steps:
+      - install_dependencies: "screwdriver/scripts/install_deps.sh"
+      - build: "screwdriver/scripts/build.sh"
+
+  main:
+    requires: [~commit]
+    steps:
+      - install_dependencies: "screwdriver/scripts/install_deps.sh"
+      - build: "screwdriver/scripts/build.sh"
