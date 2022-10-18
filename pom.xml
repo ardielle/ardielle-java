@@ -15,7 +15,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <min_jdk_version>1.8</min_jdk_version>
     <maven.deploy.skip>false</maven.deploy.skip>
-    <jackson.version>2.12.1</jackson.version>
+    <jackson.version>2.13.4.1</jackson.version>
   </properties>
 
   <organization>
